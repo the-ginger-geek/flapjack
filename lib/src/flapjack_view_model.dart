@@ -10,7 +10,7 @@ abstract class FlapjackViewModel<T extends FlapjackModel> extends ChangeNotifier
 
   FlapjackViewModel(this.model);
 
-  void setLocator(ViewModelLocator? locator) {
+  void registerViewModelLocator(ViewModelLocator? locator) {
     this.locator = locator;
     locator?.register(runtimeType, this);
   }

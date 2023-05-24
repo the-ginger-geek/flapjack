@@ -104,9 +104,7 @@ class OtherButton extends FlapjackView<OtherButtonViewModel> {
 class OtherButtonViewModel extends FlapjackViewModel<OtherButtonModel> {
   OtherButtonViewModel(super.model);
 
-  void increment() {
-    findRelative<HomeViewModel>()?.increment();
-  }
+  void increment() => findRelative<HomeViewModel>()?.increment();
 }
 
 class OtherButtonModel extends FlapjackModel {}

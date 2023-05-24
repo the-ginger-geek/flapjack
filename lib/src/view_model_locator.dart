@@ -1,4 +1,4 @@
-final class ViewModelLocator {
+class ViewModelLocator {
   final _viewModels = <Type, dynamic>{};
 
   T get<T>() {

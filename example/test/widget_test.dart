@@ -1,30 +1,65 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:flapjack/flapjack.dart';
+import 'package:flutter/material.dart';
 import 'package:managing_state/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('Flapjack tests', () {
+    test('ViewModelLocator registers and retrieves ViewModel', () {
+      final locator = ViewModelLocator();
+      final testViewModel = HomeViewModel(HomeModel());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      locator.register(HomeViewModel, testViewModel);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      expect(locator.get<HomeViewModel>(), equals(testViewModel));
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('ViewModelLocator throws exception for unregistered ViewModel', () {
+      final locator = ViewModelLocator();
+
+      expect(() => locator.get<HomeViewModel>(), throwsException);
+    });
+
+    test('ViewModelLocator unregisters ViewModel', () {
+      final locator = ViewModelLocator();
+      final testViewModel = HomeViewModel(HomeModel());
+
+      locator.register(HomeViewModel, testViewModel);
+      locator.unregister(HomeViewModel, testViewModel);
+
+      expect(() => locator.get<HomeViewModel>(), throwsException);
+    });
+
+    test('HomeViewModel increments counter', () {
+      final model = HomeModel();
+      final viewModel = HomeViewModel(model);
+
+      viewModel.increment();
+
+      expect(viewModel.counter, equals(1));
+    });
+
+    testWidgets('OtherButton increments HomeViewModel counter',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Flapjack(
+          child: const MaterialApp(
+            home: Home(title: 'Test Home'),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(FloatingActionButton).at(0));
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('1'), findsOneWidget);
+
+      await tester.tap(find.byType(FloatingActionButton).at(1));
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('2'), findsOneWidget);
+    });
   });
 }

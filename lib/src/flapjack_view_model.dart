@@ -21,7 +21,7 @@ abstract class FlapjackViewModel<T extends FlapjackModel> extends ChangeNotifier
     super.dispose();
   }
 
-  VM? getViewModel<VM>() {
+  VM? findRelative<VM>() {
     return locator?.get<VM>();
   }
 }

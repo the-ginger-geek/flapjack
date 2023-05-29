@@ -5,31 +5,6 @@ import 'package:managing_state/main.dart';
 
 void main() {
   group('Flapjack tests', () {
-    test('ViewModelLocator registers and retrieves ViewModel', () {
-      final locator = ViewModelLocator();
-      final testViewModel = HomeViewModel(HomeModel());
-
-      locator.register(HomeViewModel, testViewModel);
-
-      expect(locator.get<HomeViewModel>(), equals(testViewModel));
-    });
-
-    test('ViewModelLocator throws exception for unregistered ViewModel', () {
-      final locator = ViewModelLocator();
-
-      expect(() => locator.get<HomeViewModel>(), throwsException);
-    });
-
-    test('ViewModelLocator unregisters ViewModel', () {
-      final locator = ViewModelLocator();
-      final testViewModel = HomeViewModel(HomeModel());
-
-      locator.register(HomeViewModel, testViewModel);
-      locator.unregister(HomeViewModel, testViewModel);
-
-      expect(() => locator.get<HomeViewModel>(), throwsException);
-    });
-
     test('HomeViewModel increments counter', () {
       final model = HomeModel();
       final viewModel = HomeViewModel(model);
@@ -42,8 +17,8 @@ void main() {
     testWidgets('OtherButton increments HomeViewModel counter',
         (WidgetTester tester) async {
       await tester.pumpWidget(
-        Flapjack(
-          child: const MaterialApp(
+        const Flapjack(
+          child: MaterialApp(
             home: Home(title: 'Test Home'),
           ),
         ),

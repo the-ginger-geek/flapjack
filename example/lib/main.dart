@@ -46,7 +46,6 @@ class Home extends FlapjackView<HomeViewModel> {
               '${viewModel.counter}',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            const OtherButton(),
           ],
         ),
       ),
@@ -78,33 +77,3 @@ class HomeViewModel extends FlapjackViewModel<HomeModel> {
 class HomeModel extends FlapjackModel {
   int counter = 0;
 }
-
-class OtherButton extends FlapjackView<OtherButtonViewModel> {
-  const OtherButton({super.key});
-
-  @override
-  Widget build(BuildContext context, viewModel) {
-    return FloatingActionButton(
-      onPressed: viewModel.increment,
-      tooltip: 'Increment',
-      backgroundColor: Colors.amber,
-      foregroundColor: Colors.white,
-      child: const Icon(
-        Icons.add,
-      ),
-    );
-  }
-
-  @override
-  viewModel() {
-    return OtherButtonViewModel(OtherButtonModel());
-  }
-}
-
-class OtherButtonViewModel extends FlapjackViewModel<OtherButtonModel> {
-  OtherButtonViewModel(super.model);
-
-  void increment() => findRelative<HomeViewModel>()?.increment();
-}
-
-class OtherButtonModel extends FlapjackModel {}

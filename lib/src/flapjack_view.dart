@@ -32,7 +32,7 @@ final class FlapjackViewState<M extends FlapjackViewModel> extends State<Flapjac
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: viewModel..registerViewModelLocator(Flapjack.of(context)?.locator),
+      listenable: viewModel,
       builder: (context, child) {
         return widget.build(context, viewModel);
       },

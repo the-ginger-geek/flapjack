@@ -1,7 +1,7 @@
-// Abstract View
 import 'package:flutter/material.dart';
 
 import '../flapjack.dart';
+import 'flapjack_view_model_provider.dart';
 
 abstract class FlapjackView<M extends FlapjackViewModel> extends StatefulWidget {
   const FlapjackView({Key? key}) : super(key: key);
@@ -31,11 +31,14 @@ final class FlapjackViewState<M extends FlapjackViewModel> extends State<Flapjac
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: viewModel,
-      builder: (context, child) {
-        return widget.build(context, viewModel);
-      },
+    return FlapjackViewModelProvider<M>(
+      viewModel: viewModel,
+      child: ListenableBuilder(
+        listenable: viewModel,
+        builder: (context, child) {
+          return widget.build(context, viewModel);
+        },
+      ),
     );
   }
 }

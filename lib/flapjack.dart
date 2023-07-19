@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 export 'src/flapjack_view.dart';
 export 'src/flapjack_view_model.dart';
 export 'src/flapjack_model.dart';
+export 'src/flapjack_view_model_widget.dart';
 
 class Flapjack extends InheritedWidget {
 
@@ -15,7 +16,7 @@ class Flapjack extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+  bool updateShouldNotify(InheritedWidget oldWidget) {
     return false;
   }
 }

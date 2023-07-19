@@ -49,17 +49,28 @@ class Home extends FlapjackView<HomeViewModel> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: viewModel.increment,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: const ActionButton(),
     );
   }
 
   @override
   HomeViewModel viewModel() {
     return HomeViewModel(HomeModel());
+  }
+}
+
+class ActionButton extends FlapjackViewModelWidget<HomeViewModel> {
+  const ActionButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, HomeViewModel viewModel) {
+    return FloatingActionButton(
+      onPressed: viewModel.increment,
+      tooltip: 'Increment',
+      child: const Icon(Icons.add),
+    );
   }
 }
 

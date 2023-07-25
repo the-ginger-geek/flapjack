@@ -3,57 +3,38 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'annotations.dart';
 
-// class LoadingMethodGenerator extends GeneratorForAnnotation<LoadingMethod> {
-//   @override
-//   generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
-//     final visitor = ModelVisitor();
-//     element.visitChildren(visitor);
-//
-//     if (element is! MethodElement) {
-//       throw InvalidGenerationSourceError(
-//         'Generator cannot target `$element`. `@LoadingMethod()` can only be applied to methods.',
-//         element: element,
-//       );
-//     }
-//
-//     final methodName = element.name;
-//     final returnType = element.returnType.getDisplayString(withNullability: false);
-//
-//     return '''
-//       @override
-//       Future<$returnType> $methodName() async {
-//         setLoading(true);
-//         try {
-//           final result = await super.$methodName();
-//           return result;
-//         } finally {
-//           setLoading(false);
-//         }
-//       }
-//     ''';
-//   }
-// }
-
+/// A custom code generator that produces extension methods for classes
+/// that have methods annotated with [LoadingMethod].
+///
+/// The generated extension methods wrap the original methods with loading logic.
 class LoadingMethodGenerator extends Generator {
+
   @override
   String generate(LibraryReader library, BuildStep buildStep) {
+    // Iterate over all class elements in the library and generate code for each.
     return library.allElements
         .whereType<ClassElement>()
         .expand((classElement) => _generateForClass(classElement))
         .join('\n');
   }
 
+  /// Generates code for a given [ClassElement] if it contains methods
+  /// annotated with [LoadingMethod].
   Iterable<String> _generateForClass(ClassElement classElement) {
     return classElement.methods
         .where((method) => _hasLoadingMethodAnnotation(method))
         .map((method) => _generateForMethod(classElement, method));
   }
 
+  /// Checks if a given [MethodElement] is annotated with [LoadingMethod].
   bool _hasLoadingMethodAnnotation(MethodElement method) {
     return const TypeChecker.fromRuntime(LoadingMethod)
         .hasAnnotationOf(method);
   }
 
+  /// Generates an extension method for a given [MethodElement] within its
+  /// enclosing [ClassElement]. The generated method wraps the original method
+  /// with loading logic.
   String _generateForMethod(ClassElement classElement, MethodElement method) {
     var originalMethodName = method.name; // e.g., _$increment
     var newMethodName = originalMethodName.substring(2); // Remove the _$ prefix

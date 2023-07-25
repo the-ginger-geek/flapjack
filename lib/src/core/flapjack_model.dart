@@ -22,4 +22,6 @@
 /// 
 /// Developers can extend this class to create more specific data models tailored
 /// to the needs of their application.
-abstract class FlapjackModel<T> {}
+abstract class FlapjackModel<T> {
+  bool isLoading = false;
+}

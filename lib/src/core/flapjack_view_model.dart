@@ -30,4 +30,13 @@ abstract class FlapjackViewModel<T extends FlapjackModel> extends ChangeNotifier
 
   /// Constructs a [FlapjackViewModel] with the provided [FlapjackModel].
   FlapjackViewModel(this.model);
+
+  /// Sets the model into a loading state
+  void setLoading(bool isLoading) {
+    model.isLoading = isLoading;
+    notifyListeners();
+  }
+
+  /// Returns the loading state of the model
+  bool get isLoading => model.isLoading;
 }

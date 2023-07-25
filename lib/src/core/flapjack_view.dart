@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../flapjack.dart';
+import '../../flapjack.dart';
 import 'flapjack_view_model_provider.dart';
 
 /// An abstract [StatefulWidget] that provides a base structure for linking a view

@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      generators|annotations:
+        enabled: true
+
+builders:
+  flapjack:
+    target: ":generators"
+    import: "package:flapjack/src/generators/builders.dart"
+    builder_factories: ["loadingMethodBuilder"]
+    build_extensions: { ".dart": [".g.dart"] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]

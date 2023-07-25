@@ -1,0 +1,3 @@
+class LoadingMethod {
+  const LoadingMethod();
+}

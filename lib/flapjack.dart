@@ -2,10 +2,11 @@ library flapjack;
 
 import 'package:flutter/material.dart';
 
-export 'src/flapjack_view.dart';
-export 'src/flapjack_view_model.dart';
-export 'src/flapjack_model.dart';
-export 'src/flapjack_view_model_widget.dart';
+export 'src/core/flapjack_view.dart';
+export 'src/core/flapjack_view_model.dart';
+export 'src/core/flapjack_model.dart';
+export 'src/core/flapjack_view_model_widget.dart';
+export 'src/generators/annotations.dart';
 
 class Flapjack extends InheritedWidget {
 

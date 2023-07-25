@@ -86,6 +86,36 @@ The `findRelative` method looks for the requested type of ViewModel in the `View
 
 Note: It's important to use `findRelative` responsibly to maintain a clean architecture. You should avoid creating intricate dependencies between different parts of your app, as this can make your code harder to maintain and understand.
 
-## Conclusion
+## Code Generation with Flapjack
 
-Flapjack provides a consistent and scalable architecture for your Flutter applications, separating responsibilities into distinct Model, ViewModel, and View classes. This structure allows for cleaner, more maintainable code and a better understanding of data flow within your application.
+Flapjack supports code generation to further streamline your development process. By annotating specific methods, Flapjack can automatically generate boilerplate code, reducing redundancy.
+
+### Annotating Methods for Code Generation
+Use the @LoadingMethod() annotation on methods you wish to generate loading logic for. The annotated method should be prefixed with _$ for the generator to work correctly.
+
+```dart
+part 'my_view_model.flapjack.dart';
+
+class MyViewModel extends FlapjackViewModel<MyModel> {
+MyViewModel(MyModel model) : super(model);
+
+@LoadingMethod()
+  Future _$myMethod() async {
+    // Your method implementation here.
+  }
+}
+```
+
+Once annotated, run the code generator:
+
+```bash
+flutter pub run build_runner build
+```
+
+This will generate an extension method for the class, wrapping the original method with loading logic.
+
+The generator will produce a `myMethod` method that wraps the original
+`_$myMethod` with loading state calls.
+
+### Understanding the Generated Code
+The generated code will include an extension on your class, providing a new method that wraps the original with setLoading(true) and setLoading(false) calls. This automates the process of indicating loading states in your application.

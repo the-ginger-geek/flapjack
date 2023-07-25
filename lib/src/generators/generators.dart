@@ -18,13 +18,48 @@ class LoadingMethodGenerator extends Generator {
         .join('\n');
   }
 
-  /// Generates code for a given [ClassElement] if it contains methods
-  /// annotated with [LoadingMethod].
+  /// Generates a single extension for the given [ClassElement] that contains
+  /// methods wrapped with loading state management.
+  ///
+  /// This function inspects the [ClassElement] for methods annotated with
+  /// [LoadingMethod]. For each annotated method, it generates a new method
+  /// that wraps the original with `setLoading(true)` and `setLoading(false)`
+  /// calls. All these generated methods are grouped under a single extension
+  /// for the class.
+  ///
+  /// If the class does not have any methods annotated with [LoadingMethod],
+  /// this function returns an empty iterable.
+  ///
+  /// Example:
+  /// For a class with methods `_$fetchData` and `_$updateData` annotated with
+  /// [LoadingMethod], this function will produce an extension with methods
+  /// `fetchData` and `updateData` that include the loading state management.
   Iterable<String> _generateForClass(ClassElement classElement) {
-    return classElement.methods
+    // Get all methods with the LoadingMethod annotation
+    var annotatedMethods = classElement.methods
         .where((method) => _hasLoadingMethodAnnotation(method))
-        .map((method) => _generateForMethod(classElement, method));
+        .toList();
+
+    // If there are no annotated methods, return an empty iterable
+    if (annotatedMethods.isEmpty) {
+      return const Iterable.empty();
+    }
+
+    // Generate the extension methods for each annotated method
+    var methodsCode = annotatedMethods
+        .map((method) => _generateForMethod(classElement, method))
+        .join('\n');
+
+    // Return the complete extension code
+    return [
+      '''
+extension ${classElement.name}Extra on ${classElement.name} {
+  $methodsCode
+}
+'''
+    ];
   }
+
 
   /// Checks if a given [MethodElement] is annotated with [LoadingMethod].
   bool _hasLoadingMethodAnnotation(MethodElement method) {
@@ -48,13 +83,11 @@ class LoadingMethodGenerator extends Generator {
     var parametersCall = method.parameters.map((param) => param.name).join(', ');
 
     return '''
-extension ${classElement.name}Extra on ${classElement.name} {
   Future $newMethodName($parametersDeclaration) async {
     setLoading(true);
     await $originalMethodName($parametersCall);
     setLoading(false);
   }
-}
 ''';
   }
 }

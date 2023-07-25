@@ -1,6 +1,6 @@
 import 'package:source_gen/source_gen.dart';
 import 'package:build/build.dart';
-import 'generators.dart';
+import 'src/generators/generators.dart';
 
 Builder loadingMethodBuilder(BuilderOptions options) =>
-    SharedPartBuilder([LoadingMethodGenerator()], 'loading_method');
+    PartBuilder([LoadingMethodGenerator()], '.flapjack.dart');

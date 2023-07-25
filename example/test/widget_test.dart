@@ -1,17 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flapjack/flapjack.dart';
 import 'package:flutter/material.dart';
-import 'package:managing_state/main.dart';
+import 'package:managing_state/home_view.dart';
+import 'package:managing_state/home_model.dart';
+import 'package:managing_state/home_view_model.dart';
 
 void main() {
   group('Flapjack tests', () {
-    test('HomeViewModel increments counter', () {
+    test('HomeViewModel increments counter', () async {
       final model = HomeModel();
       final viewModel = HomeViewModel(model);
 
-      viewModel.increment();
+      await viewModel.increment(2);
 
-      expect(viewModel.counter, equals(1));
+      expect(viewModel.counter, equals(2));
     });
 
     testWidgets('OtherButton increments HomeViewModel counter',
@@ -26,15 +28,15 @@ void main() {
 
       await tester.tap(find.byType(FloatingActionButton).at(0));
 
-      await tester.pumpAndSettle();
-
-      expect(find.text('1'), findsOneWidget);
-
-      await tester.tap(find.byType(FloatingActionButton).at(1));
-
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(milliseconds: 360));
 
       expect(find.text('2'), findsOneWidget);
+
+      await tester.tap(find.byType(FloatingActionButton).at(0));
+
+      await tester.pumpAndSettle(const Duration(milliseconds: 360));
+
+      expect(find.text('4'), findsOneWidget);
     });
   });
 }

@@ -1,6 +1,6 @@
 builders:
   loading_method_builder:
-    import: "package:flapjack/builders.dart"
+    import: "package:flapjack/src/generators/builders.dart"
     builder_factories: ["loadingMethodBuilder"]
     build_extensions: { ".dart": [".flapjack.dart"] }
     auto_apply: dependents

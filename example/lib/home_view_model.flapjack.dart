@@ -8,14 +8,14 @@ part of 'home_view_model.dart';
 
 extension HomeViewModelExtra on HomeViewModel {
   Future increment(int amount) async {
-    setLoading(true);
+    setLoading(LoaderMetaData(true, loaderKey: 'increment'));
     await _$increment(amount);
-    setLoading(false);
+    setLoading(LoaderMetaData(false, loaderKey: 'increment'));
   }
 
   Future decrement(int amount) async {
-    setLoading(true);
+    setLoading(LoaderMetaData(true, loaderKey: 'decrement'));
     await _$decrement(amount);
-    setLoading(false);
+    setLoading(LoaderMetaData(false, loaderKey: 'decrement'));
   }
 }

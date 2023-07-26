@@ -21,6 +21,7 @@
 /// `_$fetchData` with loading state calls.
 class AsyncLoader {
   final String? methodName;
+  final String? loaderKey;
 
-  const AsyncLoader({this.methodName});
+  const AsyncLoader({this.methodName, this.loaderKey});
 }

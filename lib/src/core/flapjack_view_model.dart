@@ -1,3 +1,4 @@
+import 'package:flapjack/src/core/loader_meta_data.dart';
 import 'package:flutter/material.dart';
 import 'flapjack_model.dart';
 
@@ -32,11 +33,14 @@ abstract class FlapjackViewModel<T extends FlapjackModel> extends ChangeNotifier
   FlapjackViewModel(this.model);
 
   /// Sets the model into a loading state
-  void setLoading(bool isLoading) {
-    model.isLoading = isLoading;
+  void setLoading(LoaderMetaData loaderMetaData) {
+    model.loaderMetaData = loaderMetaData;
     notifyListeners();
   }
 
   /// Returns the loading state of the model
-  bool get isLoading => model.isLoading;
+  bool get isLoading => model.loaderMetaData.isLoading;
+
+  // Checks if a specific widget is loading
+  bool isWidgetLoading(String key) => model.loaderMetaData.isLoadingForKey(key);
 }

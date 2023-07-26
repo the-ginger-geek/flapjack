@@ -10,7 +10,7 @@ class IncrementButton extends FlapjackViewModelWidget<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) {
-    return viewModel.isLoading
+    return viewModel.isWidgetLoading('increment')
         ? const CircularProgressIndicator()
         : FloatingActionButton(
       onPressed: () => viewModel.increment(2),
@@ -27,7 +27,7 @@ class DecrementButton extends FlapjackViewModelWidget<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) {
-    return viewModel.isLoading
+    return viewModel.isWidgetLoading('decrement')
         ? const CircularProgressIndicator()
         : FloatingActionButton(
       onPressed: () => viewModel.decrement(2),

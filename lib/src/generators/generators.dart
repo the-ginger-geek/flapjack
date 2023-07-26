@@ -74,12 +74,19 @@ class AsyncLoaderGenerator extends Generator {
     const asyncLoaderChecker = TypeChecker.fromRuntime(AsyncLoader);
     final annotation = asyncLoaderChecker.firstAnnotationOf(method);
     final originalMethodName = method.name;
+    final metaDataParameters = [];
     String? newMethodName;
 
     if (annotation != null) {
       final annotatedMethodName = annotation.getField('methodName')?.toStringValue();
       if (annotatedMethodName?.isNotEmpty ?? false) {
         newMethodName = annotatedMethodName;
+      }
+
+      // key associated with the load function
+      final loaderKeyObject = annotation.getField('loaderKey')?.toStringValue();
+      if (loaderKeyObject != null) {
+        metaDataParameters.add('loaderKey: \'$loaderKeyObject\'');
       }
     }
 
@@ -92,12 +99,18 @@ class AsyncLoaderGenerator extends Generator {
 
     // Generate a string representation of the parameter names for method call.
     var parametersCall = method.parameters.map((param) => param.name).join(', ');
+    var loadingParameters = '';
+    if (metaDataParameters.length == 1) {
+      loadingParameters = ', ${metaDataParameters[0]}';
+    } else {
+      loadingParameters = metaDataParameters.join(', ');
+    }
 
     return '''
       Future $newMethodName($parametersDeclaration) async {
-        setLoading(true);
+        setLoading(LoaderMetaData(true$loadingParameters));
         await $originalMethodName($parametersCall);
-        setLoading(false);
+        setLoading(LoaderMetaData(false$loadingParameters));
       }
     ''';
   }

@@ -1,3 +1,5 @@
+import 'package:flapjack/src/core/loader_meta_data.dart';
+
 /// An abstract base class representing the data model in the Flapjack architecture.
 /// 
 /// The [FlapjackModel] acts as a foundational layer for data representation, providing 
@@ -23,5 +25,5 @@
 /// Developers can extend this class to create more specific data models tailored
 /// to the needs of their application.
 abstract class FlapjackModel<T> {
-  bool isLoading = false;
+  LoaderMetaData loaderMetaData = LoaderMetaData(false);
 }

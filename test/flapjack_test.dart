@@ -6,8 +6,8 @@ void main() {
 
 class TestClass {
 
-  @LoadingMethod()
-  Future someLoadingMethod() async {
+  @AsyncLoader()
+  Future someFutureMethod() async {
     Future.delayed(300.ms, () => print('my async print'));
   }
 }

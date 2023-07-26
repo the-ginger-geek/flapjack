@@ -91,7 +91,7 @@ Note: It's important to use `findRelative` responsibly to maintain a clean archi
 Flapjack supports code generation to further streamline your development process. By annotating specific methods, Flapjack can automatically generate boilerplate code, reducing redundancy.
 
 ### Annotating Methods for Code Generation
-Use the @LoadingMethod() annotation on methods you wish to generate loading logic for. The annotated method should be prefixed with _$ for the generator to work correctly.
+Use the @AsyncLoader() annotation on methods you wish to generate loading logic for. The annotated method should be prefixed with _$ for the generator to work correctly.
 
 ```dart
 part 'my_view_model.flapjack.dart';
@@ -99,7 +99,7 @@ part 'my_view_model.flapjack.dart';
 class MyViewModel extends FlapjackViewModel<MyModel> {
 MyViewModel(MyModel model) : super(model);
 
-@LoadingMethod()
+@AsyncLoader()
   Future _$myMethod() async {
     // Your method implementation here.
   }

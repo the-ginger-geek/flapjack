@@ -31,7 +31,14 @@ class Home extends FlapjackView<HomeViewModel> {
           ],
         ),
       ),
-      floatingActionButton: const ActionButton(),
+      floatingActionButton: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DecrementButton(),
+          SizedBox(width: 8.0),
+          IncrementButton(),
+        ],
+      ),
     );
   }
 

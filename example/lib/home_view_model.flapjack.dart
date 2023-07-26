@@ -3,13 +3,19 @@
 part of 'home_view_model.dart';
 
 // **************************************************************************
-// LoadingMethodGenerator
+// AsyncLoaderGenerator
 // **************************************************************************
 
 extension HomeViewModelExtra on HomeViewModel {
   Future increment(int amount) async {
     setLoading(true);
     await _$increment(amount);
+    setLoading(false);
+  }
+
+  Future decrement(int amount) async {
+    setLoading(true);
+    await _$decrement(amount);
     setLoading(false);
   }
 }

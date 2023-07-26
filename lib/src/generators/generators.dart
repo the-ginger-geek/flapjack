@@ -4,10 +4,10 @@ import 'package:build/build.dart';
 import 'annotations.dart';
 
 /// A custom code generator that produces extension methods for classes
-/// that have methods annotated with [LoadingMethod].
+/// that have methods annotated with [AsyncLoader].
 ///
 /// The generated extension methods wrap the original methods with loading logic.
-class LoadingMethodGenerator extends Generator {
+class AsyncLoaderGenerator extends Generator {
 
   @override
   String generate(LibraryReader library, BuildStep buildStep) {
@@ -22,22 +22,22 @@ class LoadingMethodGenerator extends Generator {
   /// methods wrapped with loading state management.
   ///
   /// This function inspects the [ClassElement] for methods annotated with
-  /// [LoadingMethod]. For each annotated method, it generates a new method
+  /// [AsyncLoader]. For each annotated method, it generates a new method
   /// that wraps the original with `setLoading(true)` and `setLoading(false)`
   /// calls. All these generated methods are grouped under a single extension
   /// for the class.
   ///
-  /// If the class does not have any methods annotated with [LoadingMethod],
+  /// If the class does not have any methods annotated with [AsyncLoader],
   /// this function returns an empty iterable.
   ///
   /// Example:
   /// For a class with methods `_$fetchData` and `_$updateData` annotated with
-  /// [LoadingMethod], this function will produce an extension with methods
+  /// [AsyncLoader], this function will produce an extension with methods
   /// `fetchData` and `updateData` that include the loading state management.
   Iterable<String> _generateForClass(ClassElement classElement) {
-    // Get all methods with the LoadingMethod annotation
+    // Get all methods with the AsyncLoader annotation
     var annotatedMethods = classElement.methods
-        .where((method) => _hasLoadingMethodAnnotation(method))
+        .where((method) => _hasAsyncLoaderAnnotation(method))
         .toList();
 
     // If there are no annotated methods, return an empty iterable
@@ -53,17 +53,17 @@ class LoadingMethodGenerator extends Generator {
     // Return the complete extension code
     return [
       '''
-extension ${classElement.name}Extra on ${classElement.name} {
-  $methodsCode
-}
-'''
+      extension ${classElement.name}Extra on ${classElement.name} {
+        $methodsCode
+      }
+      '''
     ];
   }
 
 
-  /// Checks if a given [MethodElement] is annotated with [LoadingMethod].
-  bool _hasLoadingMethodAnnotation(MethodElement method) {
-    return const TypeChecker.fromRuntime(LoadingMethod)
+  /// Checks if a given [MethodElement] is annotated with [AsyncLoader].
+  bool _hasAsyncLoaderAnnotation(MethodElement method) {
+    return const TypeChecker.fromRuntime(AsyncLoader)
         .hasAnnotationOf(method);
   }
 
@@ -71,8 +71,19 @@ extension ${classElement.name}Extra on ${classElement.name} {
   /// enclosing [ClassElement]. The generated method wraps the original method
   /// with loading logic.
   String _generateForMethod(ClassElement classElement, MethodElement method) {
-    var originalMethodName = method.name; // e.g., _$increment
-    var newMethodName = originalMethodName.substring(2); // Remove the _$ prefix
+    const asyncLoaderChecker = TypeChecker.fromRuntime(AsyncLoader);
+    final annotation = asyncLoaderChecker.firstAnnotationOf(method);
+    final originalMethodName = method.name;
+    String? newMethodName;
+
+    if (annotation != null) {
+      final annotatedMethodName = annotation.getField('methodName')?.toStringValue();
+      if (annotatedMethodName?.isNotEmpty ?? false) {
+        newMethodName = annotatedMethodName;
+      }
+    }
+
+    newMethodName ??= originalMethodName.substring(2);
 
     // Generate a string representation of the parameters for method declaration.
     var parametersDeclaration = method.parameters.map((param) {
@@ -83,11 +94,11 @@ extension ${classElement.name}Extra on ${classElement.name} {
     var parametersCall = method.parameters.map((param) => param.name).join(', ');
 
     return '''
-  Future $newMethodName($parametersDeclaration) async {
-    setLoading(true);
-    await $originalMethodName($parametersCall);
-    setLoading(false);
-  }
-''';
+      Future $newMethodName($parametersDeclaration) async {
+        setLoading(true);
+        await $originalMethodName($parametersCall);
+        setLoading(false);
+      }
+    ''';
   }
 }

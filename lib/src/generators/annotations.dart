@@ -12,13 +12,15 @@
 ///
 /// Example:
 /// ```dart
-/// @LoadingMethod()
+/// @AsyncLoader()
 /// Future _$fetchData() async {
 ///   // original method implementation
 /// }
 /// ```
 /// The generator will produce a `fetchData` method that wraps the original
 /// `_$fetchData` with loading state calls.
-class LoadingMethod {
-  const LoadingMethod();
+class AsyncLoader {
+  final String? methodName;
+
+  const AsyncLoader({this.methodName});
 }

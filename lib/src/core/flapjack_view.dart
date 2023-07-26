@@ -23,7 +23,8 @@ import 'flapjack_view_model_provider.dart';
 ///   }
 /// }
 /// ```
-abstract class FlapjackView<M extends FlapjackViewModel> extends StatefulWidget {
+abstract class FlapjackView<M extends FlapjackViewModel>
+    extends StatefulWidget {
   const FlapjackView({Key? key}) : super(key: key);
 
   /// Method responsible for creating an instance of [FlapjackViewModel].
@@ -47,7 +48,8 @@ abstract class FlapjackView<M extends FlapjackViewModel> extends StatefulWidget 
 ///
 /// It uses [FlapjackViewModelProvider] to provide the ViewModel instance
 /// to its descendants, allowing them to access the ViewModel if necessary.
-final class FlapjackViewState<M extends FlapjackViewModel> extends State<FlapjackView<M>> {
+final class FlapjackViewState<M extends FlapjackViewModel>
+    extends State<FlapjackView<M>> {
   late M viewModel;
 
   @override
@@ -70,14 +72,14 @@ final class FlapjackViewState<M extends FlapjackViewModel> extends State<Flapjac
   /// to ensure that the widget tree reacts to changes in the ViewModel.
   @override
   Widget build(BuildContext context) {
-    return FlapjackViewModelProvider<M>(
-      viewModel: viewModel,
-      child: ListenableBuilder(
-        listenable: viewModel,
-        builder: (context, child) {
-          return widget.build(context, viewModel);
-        },
-      ),
+    return ListenableBuilder(
+      listenable: viewModel,
+      builder: (context, child) {
+        return FlapjackViewModelProvider<M>(
+          viewModel: viewModel,
+          child: widget.build(context, viewModel),
+        );
+      },
     );
   }
 }

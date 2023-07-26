@@ -9,9 +9,14 @@ class HomeViewModel extends FlapjackViewModel<HomeModel> {
 
   int get counter => model.counter;
 
-  @LoadingMethod()
+  @AsyncLoader()
   Future _$increment(int amount) async {
     await Future.delayed(const Duration(milliseconds: 360));
     model.counter+=amount;
+  }
+  @AsyncLoader()
+  Future _$decrement(int amount) async {
+    await Future.delayed(const Duration(milliseconds: 360));
+    model.counter-=amount;
   }
 }

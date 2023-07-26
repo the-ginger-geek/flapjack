@@ -49,6 +49,6 @@ class FlapjackViewModelProvider<M extends FlapjackViewModel> extends InheritedWi
   /// This widget rebuilds when there's a new instance of the [FlapjackViewModel].
   @override
   bool updateShouldNotify(FlapjackViewModelProvider oldWidget) {
-    return viewModel != oldWidget.viewModel;
+    return this != oldWidget;
   }
 }

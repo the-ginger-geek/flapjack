@@ -1,7 +1,7 @@
 builders:
-  loading_method_builder:
+  async_loader_builder:
     import: "package:flapjack/src/generators/builders.dart"
-    builder_factories: ["loadingMethodBuilder"]
+    builder_factories: ["asyncLoaderBuilder"]
     build_extensions: { ".dart": [".flapjack.dart"] }
     auto_apply: dependents
     build_to: source

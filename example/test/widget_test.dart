@@ -26,17 +26,19 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byType(FloatingActionButton).at(0));
+      // increment button
+      await tester.tap(find.byType(FloatingActionButton).at(1));
 
-      await tester.pumpAndSettle(const Duration(milliseconds: 360));
+      await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
       expect(find.text('2'), findsOneWidget);
 
+      // decrement button
       await tester.tap(find.byType(FloatingActionButton).at(0));
 
       await tester.pumpAndSettle(const Duration(milliseconds: 360));
 
-      expect(find.text('4'), findsOneWidget);
+      expect(find.text('0'), findsOneWidget);
     });
   });
 }

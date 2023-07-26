@@ -99,6 +99,8 @@ class AsyncLoaderGenerator extends Generator {
 
     // Generate a string representation of the parameter names for method call.
     var parametersCall = method.parameters.map((param) => param.name).join(', ');
+
+    // Loader Meta Data parameters
     var loadingParameters = '';
     if (metaDataParameters.length == 1) {
       loadingParameters = ', ${metaDataParameters[0]}';

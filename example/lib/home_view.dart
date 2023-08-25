@@ -43,7 +43,5 @@ class Home extends FlapjackView<HomeViewModel> {
   }
 
   @override
-  HomeViewModel viewModel() {
-    return HomeViewModel(HomeModel());
-  }
+  HomeViewModel viewModel() => HomeViewModel(HomeModel());
 }

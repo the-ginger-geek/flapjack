@@ -10,12 +10,13 @@ class IncrementButton extends FlapjackViewModelWidget<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) {
-    return viewModel.isWidgetLoading('increment')
-        ? const CircularProgressIndicator()
-        : FloatingActionButton(
-      onPressed: () => viewModel.increment(2),
-      tooltip: 'Increment',
-      child: const Icon(Icons.exposure_plus_2_rounded),
+    return FlapjackLoader<HomeViewModel>(
+      loadingKey: 'increment',
+      child: FloatingActionButton(
+        onPressed: () => viewModel.increment(2),
+        tooltip: 'Increment',
+        child: const Icon(Icons.exposure_plus_2_rounded),
+      ),
     );
   }
 }
@@ -27,12 +28,13 @@ class DecrementButton extends FlapjackViewModelWidget<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) {
-    return viewModel.isWidgetLoading('decrement')
-        ? const CircularProgressIndicator()
-        : FloatingActionButton(
-      onPressed: () => viewModel.decrement(2),
-      tooltip: 'Decrement',
-      child: const Icon(Icons.exposure_minus_2),
+    return FlapjackLoader<HomeViewModel>(
+      loadingKey: 'decrement',
+      child: FloatingActionButton(
+        onPressed: () => viewModel.decrement(2),
+        tooltip: 'Decrement',
+        child: const Icon(Icons.exposure_minus_2),
+      ),
     );
   }
 }

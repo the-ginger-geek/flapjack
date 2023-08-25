@@ -7,13 +7,19 @@ class HomeViewModel extends FlapjackViewModel<HomeModel> {
 
   int get counter => model.counter;
 
-  Future increment(int amount) async {
-    await Future.delayed(const Duration(milliseconds: 360));
-    model.counter+=amount;
-  }
+  Future<void> increment(int amount) async => await asyncExecutable(
+        loadKey: 'increment',
+        executable: () async {
+          await Future.delayed(const Duration(milliseconds: 360));
+          model.counter += amount;
+        },
+      );
 
-  Future decrement(int amount) async {
-    await Future.delayed(const Duration(milliseconds: 360));
-    model.counter-=amount;
-  }
+  Future<void> decrement(int amount) async => await asyncExecutable(
+        loadKey: 'decrement',
+        executable: () async {
+          await Future.delayed(const Duration(milliseconds: 360));
+          model.counter -= amount;
+        },
+      );
 }

@@ -43,4 +43,11 @@ abstract class FlapjackViewModel<T extends FlapjackModel> extends ChangeNotifier
 
   // Checks if a specific widget is loading
   bool isWidgetLoading(String key) => model.loaderMetaData.isLoadingForKey(key);
+
+  Future<R> asyncExecutable<R>({required Future<R> Function() executable, String? loadKey}) async {
+    setLoading(LoaderMetaData(true, loaderKey: loadKey));
+    final R executionResult = await executable();
+    setLoading(LoaderMetaData(false, loaderKey: loadKey));
+    return executionResult;
+  }
 }

@@ -2,7 +2,6 @@ import 'package:flapjack/flapjack.dart';
 import 'package:flutter/material.dart';
 
 import 'button.dart';
-import 'home_model.dart';
 import 'home_view_model.dart';
 
 class Home extends FlapjackView<HomeViewModel> {

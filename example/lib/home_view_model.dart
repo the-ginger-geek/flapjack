@@ -1,6 +1,8 @@
 import 'package:flapjack/flapjack.dart';
 
-import 'home_model.dart';
+class HomeModel extends FlapjackModel {
+  int counter = 0;
+}
 
 class HomeViewModel extends FlapjackViewModel<HomeModel> {
   HomeViewModel(super.model);

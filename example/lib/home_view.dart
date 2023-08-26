@@ -23,9 +23,14 @@ class Home extends FlapjackView<HomeViewModel> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '${viewModel.counter}',
-              style: Theme.of(context).textTheme.headlineMedium,
+            ValueListenableBuilder(
+              valueListenable: viewModel.model.counter,
+              builder:  (context, value, _) {
+                return Text(
+                  '$value',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                );
+              },
             ),
           ],
         ),

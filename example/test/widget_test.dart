@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flapjack/flapjack.dart';
 import 'package:flutter/material.dart';
 import 'package:managing_state/home_view.dart';
-import 'package:managing_state/home_model.dart';
 import 'package:managing_state/home_view_model.dart';
 
 void main() {
@@ -11,9 +10,9 @@ void main() {
       final model = HomeModel();
       final viewModel = HomeViewModel(model);
 
-      await viewModel.increment(2);
+      await viewModel.incrementFuture(2);
 
-      expect(viewModel.counter, equals(2));
+      expect(viewModel.model.counter, equals(2));
     });
 
     testWidgets('OtherButton increments HomeViewModel counter',
